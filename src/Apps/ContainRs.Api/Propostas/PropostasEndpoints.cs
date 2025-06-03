@@ -34,7 +34,7 @@ public static class PropostasEndpoints
             .MapPost("{id:guid}/proposals", async(
                 [FromRoute] Guid id,
                 [FromForm] PropostaRequest request,
-                [FromServices] IRepository <Solicitacao> repoSolicitacao,
+                [FromServices] IRepository <PedidoLocacao> repoSolicitacao,
                 [FromServices] IRepository<Proposta> repoProposta
                 ) =>
             {
@@ -98,7 +98,7 @@ public static class PropostasEndpoints
     {
         builder.MapGet("{id:guid}/proposals", async (
             [FromRoute] Guid id,
-            [FromServices] IRepository<Solicitacao> repository) =>
+            [FromServices] IRepository<PedidoLocacao> repository) =>
         {
 
             var solicitacao = await repository

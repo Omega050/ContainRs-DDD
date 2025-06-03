@@ -33,7 +33,7 @@ public class Proposta
     public string NomeArquivo { get; set; }
     public Guid ClienteId { get; set; }
     public Guid SolicitacaoId { get; set; }
-    public Solicitacao Solicitacao { get; set; }
+    public PedidoLocacao Solicitacao { get; set; }
     public ICollection<Comentario> Comentarios { get; } = [];
 
     public Comentario AddComentario(Comentario comentario)

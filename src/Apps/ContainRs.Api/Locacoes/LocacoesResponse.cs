@@ -4,7 +4,7 @@ namespace ContainRs.Api.Locacoes;
 
 public record SolicitacaoResponse(string Id, string Status, string Finalidade)
 {
-    public static SolicitacaoResponse From(Solicitacao solicitacao) => new(
+    public static SolicitacaoResponse From(PedidoLocacao solicitacao) => new(
         Id: solicitacao.Id.ToString(),
         Status: solicitacao.Status.ToString(),
         Finalidade: solicitacao.Finalidade
