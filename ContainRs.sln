@@ -34,7 +34,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContainRs.Contracts", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContainRs.Clientes", "src\Contextos\ContainRs.Clientes\ContainRs.Clientes.csproj", "{C8DD4C9C-1B2C-4524-A4F6-0C3E59DD6611}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engenharia", "Engenharia\Engenharia.csproj", "{B9962ED7-F0B5-4126-943F-1D4383BECE7B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContainRs.Engenharia", "Engenharia\ContainRs.Engenharia.csproj", "{B9962ED7-F0B5-4126-943F-1D4383BECE7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

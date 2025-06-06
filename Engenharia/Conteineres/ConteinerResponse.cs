@@ -1,6 +1,4 @@
-﻿using ContainRs.Api.Domain;
-
-namespace ContainRs.Api.Conteineres;
+﻿namespace ContainRs.Engenharia.Conteineres;
 
 public record ConteinerResponse(string Id, string Status, string? Observacoes)
 {

@@ -1,17 +1,46 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ContainRs.Api.Data.Migrations
+namespace ContainRs.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class Locacao : Migration
+    public partial class AjustesCurso : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Solicitacoes",
+                name: "Clientes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CPF = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Celular = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clientes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Conteineres",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Observacoes = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Conteineres", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pedidos",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -23,15 +52,39 @@ namespace ContainRs.Api.Data.Migrations
                     DataInicioOperacao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DisponibilidadePrevia = table.Column<int>(type: "int", nullable: false),
                     DuracaoPrevistaLocacao = table.Column<int>(type: "int", nullable: false),
-                    EnderecoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    EnderecoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Localizacao_CEP = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Localizacao_Referencias = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Localizacao_Latitude = table.Column<double>(type: "float", nullable: false),
+                    Localizacao_Longitude = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Solicitacoes", x => x.Id);
+                    table.PrimaryKey("PK_Pedidos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EnderecoCliente",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CEP = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Rua = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Numero = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Complemento = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Bairro = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Municipio = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Estado = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClienteId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EnderecoCliente", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Solicitacoes_Endereco_EnderecoId",
-                        column: x => x.EnderecoId,
-                        principalTable: "Endereco",
+                        name: "FK_EnderecoCliente_Clientes_ClienteId",
+                        column: x => x.ClienteId,
+                        principalTable: "Clientes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -53,9 +106,9 @@ namespace ContainRs.Api.Data.Migrations
                 {
                     table.PrimaryKey("PK_Propostas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Propostas_Solicitacoes_SolicitacaoId",
+                        name: "FK_Propostas_Pedidos_SolicitacaoId",
                         column: x => x.SolicitacaoId,
-                        principalTable: "Solicitacoes",
+                        principalTable: "Pedidos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -110,6 +163,11 @@ namespace ContainRs.Api.Data.Migrations
                 column: "PropostaId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_EnderecoCliente_ClienteId",
+                table: "EnderecoCliente",
+                column: "ClienteId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Locacoes_PropostaId",
                 table: "Locacoes",
                 column: "PropostaId",
@@ -119,11 +177,6 @@ namespace ContainRs.Api.Data.Migrations
                 name: "IX_Propostas_SolicitacaoId",
                 table: "Propostas",
                 column: "SolicitacaoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Solicitacoes_EnderecoId",
-                table: "Solicitacoes",
-                column: "EnderecoId");
         }
 
         /// <inheritdoc />
@@ -133,13 +186,22 @@ namespace ContainRs.Api.Data.Migrations
                 name: "Comentario");
 
             migrationBuilder.DropTable(
+                name: "Conteineres");
+
+            migrationBuilder.DropTable(
+                name: "EnderecoCliente");
+
+            migrationBuilder.DropTable(
                 name: "Locacoes");
+
+            migrationBuilder.DropTable(
+                name: "Clientes");
 
             migrationBuilder.DropTable(
                 name: "Propostas");
 
             migrationBuilder.DropTable(
-                name: "Solicitacoes");
+                name: "Pedidos");
         }
     }
 }

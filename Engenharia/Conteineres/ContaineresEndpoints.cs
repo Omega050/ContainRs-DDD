@@ -1,7 +1,8 @@
-﻿using ContainRs.Api.Domain;
+﻿using ContainRs.Contracts;
+using ContainRs.Engenharia;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ContainRs.Api.Conteineres;
+namespace ContainRs.Engenharia.Conteineres;
 
 public static class ContaineresEndpoints
 {

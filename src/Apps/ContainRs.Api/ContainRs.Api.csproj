@@ -18,13 +18,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\..\Engenharia\ContainRs.Engenharia.csproj" />
     <ProjectReference Include="..\..\ContainRs.Contracts\ContainRs.Contracts.csproj" />
     <ProjectReference Include="..\..\Contextos\ContainRs.Clientes\ContainRs.Clientes.csproj" />
     <ProjectReference Include="..\..\Contextos\ContainRs.Vendas\ContainRs.Vendas.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
 </Project>
