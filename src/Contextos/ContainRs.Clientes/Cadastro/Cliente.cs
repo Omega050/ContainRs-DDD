@@ -1,4 +1,4 @@
-﻿namespace ContainRs.Domain.Models;
+﻿namespace ContainRs.Clientes.Cadastro;
 
 public class Cliente
 {
@@ -16,23 +16,23 @@ public class Cliente
     public Email Email { get; private set; }
     public string CPF { get; private set; }
     public string? Celular { get; set; }
-    public ICollection<Endereco> Enderecos { get; set; }
+    public ICollection<EnderecoCliente> Enderecos { get; set; }
 
-    public Endereco AddEndereco(Endereco endereco)
+    public EnderecoCliente AddEndereco(EnderecoCliente endereco)
     {
         Enderecos ??= [];
         Enderecos.Add(endereco);
         return endereco;
     }
 
-    public void RemoveEndereco(Endereco endereco)
+    public void RemoveEndereco(EnderecoCliente endereco)
     {
         Enderecos.Remove(endereco);
     }
 
-    public Endereco AddEndereco(string cep, string rua, string? numero, string? complemento, string? bairro, string municipio, UnidadeFederativa? estado)
+    public EnderecoCliente AddEndereco(string cep, string rua, string? numero, string? complemento, string? bairro, string municipio, UnidadeFederativa? estado)
     {
-        var endereco = new Endereco
+        var endereco = new EnderecoCliente
         {
             CEP = cep,
             Rua = rua,

@@ -1,6 +1,4 @@
-﻿using ContainRs.Api.Contracts;
-using ContainRs.Domain.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 

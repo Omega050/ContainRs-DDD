@@ -1,7 +1,6 @@
-﻿using ContainRs.Domain.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace ContainRs.Api.Clientes;
+namespace ContainRs.Clientes.Cadastro;
 
 public class EnderecoRequest
 {
@@ -19,7 +18,7 @@ public class EnderecoRequest
     public string? Estado { get; set; }
     public string? Nome { get; set; }
 
-    public Endereco ToModel() => new()
+    public EnderecoCliente ToModel() => new()
     {
         CEP = CEP,
         Rua = Rua!,

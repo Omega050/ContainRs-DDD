@@ -1,10 +1,7 @@
-﻿using ContainRs.Api.Contracts;
-using ContainRs.Api.Identity;
-using ContainRs.Domain.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using ContainRs.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ContainRs.Api.Clientes;
+namespace ContainRs.Clientes.Cadastro;
 
 public static class AprovacaoClientesEndpoints
 {
@@ -28,7 +25,8 @@ public static class AprovacaoClientesEndpoints
         builder.MapPatch("registration/{id:guid}/approve", async (
             [FromRoute] Guid id
             , [FromServices] IRepository<Cliente> repository
-            , [FromServices] UserManager<AppUser> userManager) =>
+            , [FromServices] IAcessoManager userManager
+            , CancellationToken cancellationToken) =>
         {
             var cliente = await repository
                 .GetFirstAsync(
@@ -36,21 +34,7 @@ public static class AprovacaoClientesEndpoints
                     c => c.Id);
             if (cliente is null) return Results.NotFound();
 
-            var user = await userManager.FindByEmailAsync(cliente.Email.Value);
-            if (user is null)
-            {
-                user = new AppUser
-                {
-                    UserName = cliente.Email.Value,
-                    Email = cliente.Email.Value
-                };
-                await userManager.CreateAsync(user, "Alura@123");
-                await userManager.AddToRoleAsync(user, "Cliente");
-            }
-
-            user.EmailConfirmed = true;
-            var result = await userManager.UpdateAsync(user);
-            if (!result.Succeeded) return Results.Problem(result.Errors.First().Description);
+            await userManager.AdicionarClienteAsync(cliente.Email.Value, cancellationToken);
 
             return Results.Ok(new RegistrationStatusResponse(cliente.Id.ToString(), cliente.Email.Value, "Aprovado"));
         })
@@ -64,7 +48,8 @@ public static class AprovacaoClientesEndpoints
         builder.MapPatch("registration/{id:guid}/reject", async (
             [FromRoute] Guid id
             , [FromServices] IRepository<Cliente> repository
-            , [FromServices] UserManager<AppUser> userManager) =>
+            , [FromServices] IAcessoManager userManager
+            , CancellationToken cancellationToken) =>
         {
             var cliente = await repository
                 .GetFirstAsync(
@@ -72,12 +57,7 @@ public static class AprovacaoClientesEndpoints
                     c => c.Id);
             if (cliente is null) return Results.NotFound();
 
-            var user = await userManager.FindByEmailAsync(cliente.Email.Value);
-            if (user is null) return Results.NotFound();
-
-            user.EmailConfirmed = false;
-            var result = await userManager.UpdateAsync(user);
-            if (!result.Succeeded) return Results.Problem(result.Errors.First().Description);
+            await userManager.BloquearClienteAsync(cliente.Email.Value, cancellationToken);
 
             return Results.Ok(new RegistrationStatusResponse(cliente.Id.ToString(), cliente.Email.Value, "Registro não aprovado"));
         })

@@ -1,8 +1,8 @@
-﻿namespace ContainRs.Domain.Models;
+﻿namespace ContainRs.Clientes.Cadastro;
 
-public class Endereco
+public class EnderecoCliente
 {
-    public Endereco() { }
+    public EnderecoCliente() { }
     public Guid Id { get; set; }
     public string? Nome { get; set; }
     public string CEP { get; set; }

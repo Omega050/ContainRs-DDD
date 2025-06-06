@@ -1,6 +1,4 @@
-﻿using ContainRs.Domain.Models;
-
-namespace ContainRs.Api.Clientes;
+﻿namespace ContainRs.Clientes.Cadastro;
 
 public record ClienteResponse(string Id, string Nome, string Email, string? Celular, IEnumerable<EnderecoResponse>? Enderecos = null)
 {
@@ -18,7 +16,7 @@ public record ClienteResponse(string Id, string Nome, string Email, string? Celu
 
     public record EnderecoResponse(string Id, string? Nome, string Logradouro, string? Numero, string? Complemento, string? Bairro, string Cidade, string? Estado, string CEP)
 {
-    public static EnderecoResponse From(Endereco endereco)
+    public static EnderecoResponse From(EnderecoCliente endereco)
     {
         return new EnderecoResponse(
             endereco.Id.ToString(),

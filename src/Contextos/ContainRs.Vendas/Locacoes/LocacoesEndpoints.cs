@@ -1,9 +1,7 @@
-﻿using ContainRs.Api.Contracts;
-using ContainRs.Api.Domain;
-using ContainRs.Api.Extensions;
+﻿using ContainRs.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ContainRs.Api.Locacoes;
+namespace ContainRs.Vendas.Locacoes;
 
 public static class LocacoesEndpoints
 {
@@ -27,11 +25,15 @@ public static class LocacoesEndpoints
             HttpContext context,
             [FromServices] IRepository<Locacao> repository) =>
         {
-            var clienteId = context.GetClienteId();
+            var clienteId = context.User.Claims
+               .Where(c => c.Type.Equals("ClienteId"))
+               .Select(c => c.Value)
+               .FirstOrDefault();
+
             if (clienteId is null) return Results.Unauthorized();
 
             var locacoes = await repository
-                .GetWhereAsync(l => l.ClienteId == clienteId.Value);
+                .GetWhereAsync(l => l.ClienteId == Guid.Parse(clienteId));
             return Results.Ok(locacoes.Select(LocacaoResponse.From));
         })
         .WithSummary("Lista o histórico de locações do cliente");

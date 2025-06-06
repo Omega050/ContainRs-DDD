@@ -17,4 +17,14 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Contracts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ContainRs.Contracts\ContainRs.Contracts.csproj" />
+    <ProjectReference Include="..\..\Contextos\ContainRs.Clientes\ContainRs.Clientes.csproj" />
+    <ProjectReference Include="..\..\Contextos\ContainRs.Vendas\ContainRs.Vendas.csproj" />
+  </ItemGroup>
+
 </Project>
