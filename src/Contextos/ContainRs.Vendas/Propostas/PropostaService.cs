@@ -47,5 +47,25 @@ namespace ContainRs.Vendas.Propostas
             scope.Complete();
             return proposta;
         }
+
+        public async Task<Proposta?> ComentarAsync(ComentarioProposta comando)
+        {
+            var proposta = await repoProposta
+                .GetFirstAsync(
+                    p => p.Id == comando.IdProposta && p.SolicitacaoId == comando.IdPedido,
+                    p => p.Id);
+            if (proposta is null) return null;
+
+            proposta.AddComentario(new Comentario()
+            {
+                Id = Guid.NewGuid(),
+                Data = DateTime.Now,
+                Usuario = comando.Pessoa,
+                Texto = comando.Mensagem
+            });
+
+            await repoProposta.UpdateAsync(proposta);
+            return proposta;
+        }
     }
 }
